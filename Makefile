@@ -6,7 +6,7 @@
 #    By: adrperez <adrperez@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/19 13:52:47 by adrperez          #+#    #+#              #
-#    Updated: 2023/02/15 13:07:28 by adrperez         ###   ########.fr        #
+#    Updated: 2023/02/21 15:11:46 by adrperez         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ NAME		= 	pipex
 
 #Sources
 SRCS		= 	src/paths.c \
+				src/main.c \
 				utils/ft_memcmp.c \
 				utils/ft_split.c \
 				utils/ft_strdup.c \
@@ -35,11 +36,11 @@ RM			= 	rm -rf
 #Default target
 all:		$(NAME)
 			
-# Linking: option -r to ensure that if the library (.a) file already exists, 
-# it will be replaced. The command option -c should be used so that if the 
-# file doesn’t exist, it will be created.
-$(NAME):	$(OBJS) 
-			ar -rcs $(NAME) $(OBJS) 
+%.o:%.c
+		$(CC) $(CFLAGS) -c $< -o $(<:.c=.o) -I$(INC)
+
+$(NAME): $(OBJS)
+		$(CC) -o $(NAME) $(OBJS)		
 
 #Cleaning objects (Eliminacion de objetos)
 clean:
