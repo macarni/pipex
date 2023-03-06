@@ -6,7 +6,7 @@
 /*   By: adrperez <adrperez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 12:11:27 by adrperez          #+#    #+#             */
-/*   Updated: 2023/03/06 16:46:25 by adrperez         ###   ########.fr       */
+/*   Updated: 2023/03/06 17:18:59 by adrperez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,13 @@ int	main(int argc, char **argv, char **envp)
 	if (argc > 1 && argv)
 		printf("");
 	mycmds = ft_split(argv[1], ' ');
-	if(check_cmd(correct_path, mycmds, envp) == -1)
+	if(check_cmd(&correct_path, mycmds, envp) == -1)
 		printf("Error\n");
 	else
 		printf("Correct \n");
 	
 	printf("Comando %s\n", mycmds[0]);
 	printf("Correct path %s\n", correct_path);
+	execve(correct_path, mycmds, envp);
 	return (0);
 }		

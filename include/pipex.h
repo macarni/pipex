@@ -29,6 +29,6 @@ void	*ft_calloc(size_t count, size_t size);
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 char	*ft_strjoin(char const *s1, char const *s2);
 void	ft_bzero(void *s, size_t n);
-int		check_cmd(char *correct, char **cmd, char **envp);
+int		check_cmd(char **correct, char **cmd, char **envp);
 
 #endif
