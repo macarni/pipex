@@ -6,7 +6,7 @@
 /*   By: adrperez <adrperez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 12:24:49 by adrperez          #+#    #+#             */
-/*   Updated: 2023/02/21 14:44:55 by adrperez         ###   ########.fr       */
+/*   Updated: 2023/03/06 16:28:17 by adrperez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,38 @@ char	**ft_find_path(char **envp)
 		if (ft_memcmp(envp[i], "PATH=/", 6) == 0)
 		{
 			path = ft_strdup(envp[i]); //devuelve una copia del str desde PATH
+			path+=5;
 			break;
 		}
 		i++;
 	}
 	return (cut_path(path));
+}
+
+int	check_cmd(char *correct, char **cmd, char **envp)
+{
+	char	*aux;
+	char	**path_from_envp;
+	int		res;
+	int		i;
+
+	i = 0;
+	path_from_envp = ft_find_path(envp);
+	aux = ft_strjoin("/", cmd[0]);
+	while(path_from_envp[i])
+	{
+		correct = ft_strjoin(path_from_envp[i], aux);
+		printf("Access %i\n", access(correct, X_OK));
+		res = access(correct, X_OK);
+		if (res == 0) 
+		{
+			printf("path_from_envp[i]: %s\n", path_from_envp[i]);
+			return (res);
+		}
+		free(correct);
+		i++;
+	}
+	free(aux);
+	return (res);
 }
 

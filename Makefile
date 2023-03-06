@@ -6,7 +6,7 @@
 #    By: adrperez <adrperez@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/19 13:52:47 by adrperez          #+#    #+#              #
-#    Updated: 2023/02/21 15:11:46 by adrperez         ###   ########.fr        #
+#    Updated: 2023/03/06 13:38:50 by adrperez         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,11 @@ SRCS		= 	src/paths.c \
 				utils/ft_memcmp.c \
 				utils/ft_split.c \
 				utils/ft_strdup.c \
-				utils/ft_strlen.c
+				utils/ft_strlen.c \
+				utils/ft_calloc.c \
+				utils/ft_strlcat.c \
+				utils/ft_strjoin.c \
+				utils/ft_bzero.c \
 
 OBJS		= 	$(SRCS:.c=.o)
 

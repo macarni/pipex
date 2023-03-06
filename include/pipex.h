@@ -25,5 +25,10 @@ char	**ft_split(char const *s, char c);
 char	*ft_strdup(const char *s1);
 char	**ft_find_path(char **envp);
 size_t	ft_strlen(const char *s);
+void	*ft_calloc(size_t count, size_t size);
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
+char	*ft_strjoin(char const *s1, char const *s2);
+void	ft_bzero(void *s, size_t n);
+int		check_cmd(char *correct, char **cmd, char **envp);
 
 #endif
