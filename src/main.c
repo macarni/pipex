@@ -6,7 +6,7 @@
 /*   By: adrperez <adrperez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 12:11:27 by adrperez          #+#    #+#             */
-/*   Updated: 2023/03/06 16:27:51 by adrperez         ###   ########.fr       */
+/*   Updated: 2023/03/06 16:46:25 by adrperez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,6 @@ int	main(int argc, char **argv, char **envp)
 		printf("Correct \n");
 	
 	printf("Comando %s\n", mycmds[0]);
+	printf("Correct path %s\n", correct_path);
 	return (0);
 }		

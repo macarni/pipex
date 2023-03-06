@@ -4,3 +4,5 @@ a.out
 .DS_Store
 */.DS_Store
 a.out.dSYM
+*.png
+*/*.o
