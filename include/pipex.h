@@ -19,6 +19,9 @@
 # include <fcntl.h>
 # include <stdio.h>
 
+#define READ_END 0 //index pipe extremo de lectura
+#define WRITE_END 1 //index pipe extremo de escritura
+
 int		main(int argc, char **argv, char **envp);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 char	**ft_split(char const *s, char c);
