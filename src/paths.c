@@ -6,7 +6,7 @@
 /*   By: adrperez <adrperez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 12:24:49 by adrperez          #+#    #+#             */
-/*   Updated: 2023/03/06 17:16:28 by adrperez         ###   ########.fr       */
+/*   Updated: 2023/03/07 15:50:03 by adrperez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ int	check_cmd(char **correct, char **cmd, char **envp)
 	while(path_from_envp[i])
 	{
 		*correct = ft_strjoin(path_from_envp[i], aux);
-		printf("Access %i\n", access(*correct, X_OK));
 		res = access(*correct, X_OK);
 		if (res == 0) 
 		{

@@ -19,8 +19,8 @@
 # include <fcntl.h>
 # include <stdio.h>
 
-#define READ_END 0 //index pipe extremo de lectura
-#define WRITE_END 1 //index pipe extremo de escritura
+// #define READ_END 0 //index pipe extremo de lectura
+// #define WRITE_END 1 //index pipe extremo de escritura
 
 int		main(int argc, char **argv, char **envp);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
@@ -33,5 +33,6 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 char	*ft_strjoin(char const *s1, char const *s2);
 void	ft_bzero(void *s, size_t n);
 int		check_cmd(char **correct, char **cmd, char **envp);
+void		pipex(int infile, int outfile, char **argv, char **envp, char **paths);
 
 #endif

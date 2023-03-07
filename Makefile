@@ -6,7 +6,7 @@
 #    By: adrperez <adrperez@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/19 13:52:47 by adrperez          #+#    #+#              #
-#    Updated: 2023/03/06 17:31:24 by adrperez         ###   ########.fr        #
+#    Updated: 2023/03/07 15:52:19 by adrperez         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ NAME		= 	pipex
 #Sources
 SRCS		= 	src/paths.c \
 				src/main.c \
+				src/ft_pipex.c \
 				utils/ft_memcmp.c \
 				utils/ft_split.c \
 				utils/ft_strdup.c \
@@ -29,7 +30,7 @@ OBJS		= 	$(SRCS:.c=.o)
 
 #Compilation
 CC			=	gcc
-CFLAGS		=	-Wall -Wextra -Werror -g3 -fsanitize=address
+CFLAGS		=	-Wall -Wextra -Werror -g -g3 -fsanitize=address
 
 #Include
 INC			= ./include
