@@ -6,7 +6,7 @@
 /*   By: adrperez <adrperez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 17:23:35 by adrperez          #+#    #+#             */
-/*   Updated: 2023/03/08 17:46:00 by adrperez         ###   ########.fr       */
+/*   Updated: 2023/03/08 18:51:00 by adrperez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int get_infile(char *argv)
 	{
 		ft_putstr_fd("Error infile. ", 2);
 		ft_putstr_fd(strerror(errno), 2); // returns a pointer to a string that describes the error code passed in the argument errnum
+		write(2, "\n", 1);
 		exit(errno); // number of last error
 	}
 
@@ -36,6 +37,7 @@ int get_outfile(char *argv)
 	{
 		ft_putstr_fd("Error outfile. ", 2);
 		ft_putstr_fd(strerror(errno), 2);
+		write(2, "\n", 1);
 		exit(errno);
 	}
 

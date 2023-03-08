@@ -6,7 +6,7 @@
 /*   By: adrperez <adrperez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 12:11:27 by adrperez          #+#    #+#             */
-/*   Updated: 2023/03/08 17:38:57 by adrperez         ###   ########.fr       */
+/*   Updated: 2023/03/08 18:48:12 by adrperez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@ int main(int argc, char **argv, char **envp)
 	infile = get_infile(argv[1]);
 	outfile = get_outfile(argv[4]);
 	pipex(infile, outfile, argv, envp);
+	system("leaks pipex");
 	return (0);
 }		
