@@ -6,7 +6,7 @@
 /*   By: adrperez <adrperez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 12:24:49 by adrperez          #+#    #+#             */
-/*   Updated: 2023/03/07 15:50:03 by adrperez         ###   ########.fr       */
+/*   Updated: 2023/03/08 15:39:55 by adrperez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	check_cmd(char **correct, char **cmd, char **envp)
 		res = access(*correct, X_OK);
 		if (res == 0) 
 		{
-			printf("path_from_envp[i]: %s\n", path_from_envp[i]);
+			printf("path: %s\n", *correct);
 			return (0);
 		}
 		free(*correct);

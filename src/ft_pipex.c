@@ -6,51 +6,67 @@
 /*   By: adrperez <adrperez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 13:14:24 by adrperez          #+#    #+#             */
-/*   Updated: 2023/03/07 17:15:09 by adrperez         ###   ########.fr       */
+/*   Updated: 2023/03/08 15:41:41 by adrperez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/pipex.h"
 
-static void	child1_process(int *fd, int infile, char **argv, char **envp, char *path)
+void pipex(int infile, int outfile, char **argv, char **envp, char **paths)
 {
-	close(fd[1]);
-	dup2(infile, STDIN_FILENO); //cierra el STDIN estandar y redirecciona el fd al STDIN -> esto hará que fd[0] sea el input de execve
-	dup2(fd[0], STDOUT_FILENO); //redirecciona la salida del comando fd[0] al STDOUT 
-	close(fd[0]);
-	close(infile);
-	execve(path, &argv[2], envp); //del primer comando
-}
-// **comandos 
-	//argv[2];
-	//0;
-
-// static void	child2_process(int fd, int outfile, char **argv, char **envp, char *path)
-	// {
-	// 	dup2(outfile, STDOUT_FILENO); //redirecciona el STDOUT al outfile
-	// 	dup2(fd, STDIN_FILENO); //redirecciona el STDIN al fd[1]
-	// 	execve(path, &argv[3], envp); //del segundo comando
-	// }
-
-	void pipex(int infile, int outfile, char **argv, char **envp, char **paths)
-	{
 	int		fd[2];
-	int		pid;
+	pid_t 	pid;
+	int		status;
+	char 	**cmd;
 
 	(void)outfile;
+
 	pipe(fd); // Si no devuelve un 0 es que ha habido un error
 
-	pid = fork(); 
-	if (pid == 0) //hijo
-		child1_process(fd, infile, argv, envp, paths[0]);
-	if (pid == -1) //error
+	pid = fork();
+	printf("pid %d\n", pid);
+	if (pid == -1) // error
 		perror("Fork: ");
-	wait(NULL);
+	else if (pid == 0) //hijo
+	{
+		cmd = ft_calloc(sizeof(char *), 2);
+		cmd[0] = argv[2];
+		cmd[1] = 0;
+		printf("cmd1 %s\n", cmd[0]);
+		close(fd[0]);	// vamos ESCRIBIR en el pipe, asi que se cierra el de lectura
+		dup2(infile, STDIN_FILENO); // cierra el STDIN estandar y redirecciona el archivo al STDIN -> esto hará que infile sea el input de execve
+		close(infile);
+		dup2(fd[1], STDOUT_FILENO); // redirecciona la salida del comando a fd[0] en vez de STDOUT
+		close(fd[1]);
+		execve(paths[0], cmd, envp); // del primer comando
+		free(cmd);
+	}
+	else 
+	{
+		cmd = ft_calloc(sizeof(char *), 2);
+		cmd[0] = argv[3];
+		cmd[1] = 0;
+		printf("cmd2 %s\n", cmd[0]);
+		pid = fork(); // segundo hijo
+		close(fd[1]); // padre lee, así que cerramos el de escritura
+		if (pid == 0)
+		{
+			dup2(outfile, STDOUT_FILENO); // redirecciona el STDOUT al outfile
+			dup2(fd[0], STDIN_FILENO);	  // redirecciona el STDIN al fd[1] --> queremos que lea del extremo de lectura del pipe (el que el padre tiene abierto)
+			close(fd[0]);
+			execve(paths[1], cmd, envp);  // del segundo comando
+		}
+		else if (pid == -1) // error
+			perror("Fork: ");
+		free(cmd);
+		close(fd[0]); // para que se cierre el extremo cuando ya no es necesario
+	}
+	// un wait para cada hijo
+	waitpid(pid, &status, WNOHANG);
+	waitpid(pid, &status, WNOHANG);
+	// while (1)
+	// 	;
 	// padre
-	//lsof -c pipex -> para ver file descriptors abiertos
-	//child2_process(fd[0], outfile, argv, envp, paths[1]);
-	close(fd[0]);
-	close(fd[1]);
-	while (1)
-		;
+	// lsof -c pipex -> para ver file descriptors abiertos
+
 }
