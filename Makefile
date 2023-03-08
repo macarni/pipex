@@ -6,7 +6,7 @@
 #    By: adrperez <adrperez@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/19 13:52:47 by adrperez          #+#    #+#              #
-#    Updated: 2023/03/07 15:52:19 by adrperez         ###   ########.fr        #
+#    Updated: 2023/03/08 18:21:40 by adrperez         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,8 @@ NAME		= 	pipex
 SRCS		= 	src/paths.c \
 				src/main.c \
 				src/ft_pipex.c \
+				src/error_mngmnt.c \
+				src/ft_files.c \
 				utils/ft_memcmp.c \
 				utils/ft_split.c \
 				utils/ft_strdup.c \
@@ -25,6 +27,7 @@ SRCS		= 	src/paths.c \
 				utils/ft_strlcat.c \
 				utils/ft_strjoin.c \
 				utils/ft_bzero.c \
+				utils/ft_putstr_fd.c \
 
 OBJS		= 	$(SRCS:.c=.o)
 

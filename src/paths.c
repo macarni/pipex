@@ -6,7 +6,7 @@
 /*   By: adrperez <adrperez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 12:24:49 by adrperez          #+#    #+#             */
-/*   Updated: 2023/03/08 15:39:55 by adrperez         ###   ########.fr       */
+/*   Updated: 2023/03/08 18:17:07 by adrperez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,29 +46,27 @@ char	**ft_find_path(char **envp)
 	return (cut_path(path));
 }
 
-int	check_cmd(char **correct, char **cmd, char **envp)
+char	*check_cmd(char *argv, char **envp)
 {
 	char	*aux;
 	char	**path_from_envp;
 	int		res;
 	int		i;
+	char 	*correct_path;
 
 	i = 0;
 	path_from_envp = ft_find_path(envp);
-	aux = ft_strjoin("/", cmd[0]);
+	aux = ft_strjoin("/", ft_split(argv, ' ')[0]);
 	while(path_from_envp[i])
 	{
-		*correct = ft_strjoin(path_from_envp[i], aux);
-		res = access(*correct, X_OK);
+		correct_path = ft_strjoin(path_from_envp[i], aux);
+		res = access(correct_path, X_OK);
 		if (res == 0) 
-		{
-			printf("path: %s\n", *correct);
-			return (0);
-		}
-		free(*correct);
+			return (correct_path);
+		free(correct_path);
 		i++;
 	}
 	free(aux);
-	return (-1);
+	return (0);
 }
 

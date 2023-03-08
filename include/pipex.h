@@ -18,6 +18,8 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 # include <stdio.h>
+# include <errno.h>
+#include <string.h>
 
 // #define READ_END 0 //index pipe extremo de lectura
 // #define WRITE_END 1 //index pipe extremo de escritura
@@ -32,7 +34,11 @@ void	*ft_calloc(size_t count, size_t size);
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 char	*ft_strjoin(char const *s1, char const *s2);
 void	ft_bzero(void *s, size_t n);
-int		check_cmd(char **correct, char **cmd, char **envp);
-void		pipex(int infile, int outfile, char **argv, char **envp, char **paths);
+char	*check_cmd(char *argv, char **envp);
+void	pipex(int infile, int outfile, char **argv, char **envp);
+void 	ft_putstr_fd(char *s, int fd);
+void	check_args(int argc);
+int 	get_infile(char *argv);
+int 	get_outfile(char *argv);
 
 #endif
