@@ -6,38 +6,18 @@
 /*   By: adrperez <adrperez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 17:23:35 by adrperez          #+#    #+#             */
-/*   Updated: 2023/03/13 11:30:24 by adrperez         ###   ########.fr       */
+/*   Updated: 2023/03/13 16:32:30 by adrperez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/pipex.h"
 
-int get_infile(char *argv)
+void get_files(char *argv1, int *infile, char *argv2, int *outfile)
 {
-	int file;
-
-	file = open(argv, O_RDONLY);
-	if (file < 0)
-	{
-		ft_putstr_fd("Error infile. ", 2);
-		ft_putstr_fd(strerror(errno), 2); // returns a pointer to a string that describes the error code passed in the argument errnum
-		write(2, "\n", 1);
-		exit(errno); // number of last error
-	}
-	return (file);
-}
-
-int get_outfile(char *argv)
-{
-	int file;
-
-	file = open(argv, O_CREAT | O_RDWR | O_TRUNC, 0644);
-	if (file < 0)
-	{
-		ft_putstr_fd("Error outfile. ", 2);
-		ft_putstr_fd(strerror(errno), 2);
-		write(2, "\n", 1);
-		exit(errno);
-	}
-	return (file);
+	*infile = open(argv1, O_RDONLY);
+	if (*infile < 0)
+		write_error(argv1);
+	*outfile = open(argv2, O_CREAT | O_RDWR | O_TRUNC, 0644);
+	if (*outfile < 0)
+		write_error(argv2);
 }

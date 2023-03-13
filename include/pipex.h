@@ -32,12 +32,12 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 char	*ft_strjoin(char const *s1, char const *s2);
 void	ft_bzero(void *s, size_t n);
 char 	*check_cmd(char *argv, char **path_from_envp);
-void	pipex(char **argv, char **envp, char **path);
+void 	pipex(char **argv, char **envp, char **path, int infile, int outfile);
 void 	ft_putstr_fd(char *s, int fd);
 void	check_args(int argc);
-int 	get_infile(char *argv);
-int 	get_outfile(char *argv);
 void 	free_matrix(char **path);
-void cmd_not_foud(char *cmd);
+void 	cmd_not_foud(char *cmd);
+void	write_error(char	*str);
+void 	get_files(char *argv1, int *infile, char *argv2, int *outfile);
 
 #endif

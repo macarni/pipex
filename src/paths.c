@@ -6,7 +6,7 @@
 /*   By: adrperez <adrperez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 12:24:49 by adrperez          #+#    #+#             */
-/*   Updated: 2023/03/13 12:57:43 by adrperez         ###   ########.fr       */
+/*   Updated: 2023/03/13 17:00:03 by adrperez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ char **ft_find_path(char **envp)
 		// Significa que lo ha encontrado
 		if (ft_memcmp(envp[i], "PATH=/", 6) == 0)
 		{
-			path += 5;
-			path = ft_strdup(envp[i]); // devuelve una copia del str desde PATH
+			path = ft_strdup(envp[i] + 5); // devuelve una copia del str desde PATH
 			break;
 		}
 		i++;

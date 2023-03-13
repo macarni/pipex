@@ -6,19 +6,17 @@
 /*   By: adrperez <adrperez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 13:14:24 by adrperez          #+#    #+#             */
-/*   Updated: 2023/03/13 12:54:08 by adrperez         ###   ########.fr       */
+/*   Updated: 2023/03/13 17:09:00 by adrperez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/pipex.h"
 
-static void first_exec(char **argv, char **envp, int *fd, char **path_from_envp)
+static void first_exec(char **argv, char **envp, int *fd, char **path_from_envp, int infile)
 {
 	char *path;
 	char	**cmd;
-	int 	infile;
 
-	infile = get_infile(argv[1]);
 	path = check_cmd(argv[2], path_from_envp);
 	cmd = ft_split(argv[2], ' ');
 	close(fd[0]);				// vamos ESCRIBIR en el pipe, asi que se cierra el de lectura
@@ -28,16 +26,16 @@ static void first_exec(char **argv, char **envp, int *fd, char **path_from_envp)
 	close(fd[1]);
 	if (execve(path, cmd, envp) < 0)
 		exit(errno);
+	free_matrix(cmd);
+	free(path);
 }
 
-static void last_exec(char **argv, char **envp, int *fd, char **path_from_envp)
+static void last_exec(char **argv, char **envp, int *fd, char **path_from_envp, int outfile)
 {
 	char	*path;
 	char	**cmd;
-	int 	outfile;
 	pid_t	pid;
 
-	outfile = get_outfile(argv[4]);
 	path = check_cmd(argv[3], path_from_envp);
 	cmd = ft_split(argv[3], ' ');
 	pid = fork(); // segundo hijo
@@ -48,17 +46,17 @@ static void last_exec(char **argv, char **envp, int *fd, char **path_from_envp)
 		dup2(fd[0], STDIN_FILENO);	  // redirecciona el STDIN al fd[1] --> queremos que lea del extremo de lectura del pipe (el que el padre tiene abierto)
 		close(fd[0]);
 		if (execve(path, cmd, envp) < 0) 
-			exit(127);
+			exit(errno);
 	}
 	else if (pid == -1) // error
 		perror("Fork: ");
 	else
-	{
 		close(fd[0]); // para que se cierre el extremo cuando ya no es necesario
-	}
+	free_matrix(cmd);
+	free(path);
 }
 
-void pipex(char **argv, char **envp, char **path)
+void pipex(char **argv, char **envp, char **path, int infile, int outfile)
 {
 	int		fd[2];
 	pid_t 	pid;
@@ -69,9 +67,9 @@ void pipex(char **argv, char **envp, char **path)
 	if (pid == -1) // error
 		perror("Fork: ");
 	else if (pid == 0) //hijo
-		first_exec(argv, envp, fd, path);
+		first_exec(argv, envp, fd, path, infile);
 	else
-		last_exec(argv, envp, fd, path);
+		last_exec(argv, envp, fd, path, outfile);
 	// un wait para cada hijo
 	waitpid(pid, &status, WNOHANG);
 	waitpid(pid, &status, WNOHANG);
