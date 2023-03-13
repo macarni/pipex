@@ -6,40 +6,40 @@
 /*   By: adrperez <adrperez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 12:24:49 by adrperez          #+#    #+#             */
-/*   Updated: 2023/03/13 12:30:22 by adrperez         ###   ########.fr       */
+/*   Updated: 2023/03/13 12:57:43 by adrperez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/pipex.h"
 
-//1. Encontrar PATH
-//2. Cortar a  partir de PATH
-//3. Split 
-//4. Probar en cual está el comando
+// 1. Encontrar PATH
+// 2. Cortar a  partir de PATH
+// 3. Split
+// 4. Probar en cual está el comando
 
 static char **cut_path(char *path)
 {
-	char	**clean_path;
+	char **clean_path;
 
 	clean_path = ft_split(path, ':');
 	free(path);
 	return (clean_path);
 }
 
-char	**ft_find_path(char **envp)
+char **ft_find_path(char **envp)
 {
-	char	*path;
-	int		i;
+	char *path;
+	int i;
 
 	i = 0;
 	path = 0;
 	while (envp[i])
 	{
-		//Significa que lo ha encontrado
+		// Significa que lo ha encontrado
 		if (ft_memcmp(envp[i], "PATH=/", 6) == 0)
 		{
 			path += 5;
-			path = ft_strdup(envp[i]); //devuelve una copia del str desde PATH
+			path = ft_strdup(envp[i]); // devuelve una copia del str desde PATH
 			break;
 		}
 		i++;
@@ -47,18 +47,18 @@ char	**ft_find_path(char **envp)
 	return (cut_path(path));
 }
 
-char	*check_cmd(char *argv, char **envp)
+char *check_cmd(char *argv, char **path_from_envp)
 {
-	char	*aux;
-	char	**path_from_envp;
-	int		res;
-	int		i;
-	char 	*correct_path;
+	char *aux;
+	int res;
+	int i;
+	char *correct_path;
+	char *cmd;
 
 	i = 0;
-	path_from_envp = ft_find_path(envp);
-	aux = ft_strjoin("/", ft_split(argv, ' ')[0]);
-	while(path_from_envp[i])
+	cmd = ft_split(argv, ' ')[0];
+	aux = ft_strjoin("/", cmd);
+	while (path_from_envp[i])
 	{
 		correct_path = ft_strjoin(path_from_envp[i], aux);
 		res = access(correct_path, X_OK);
@@ -71,12 +71,13 @@ char	*check_cmd(char *argv, char **envp)
 		free(correct_path);
 		i++;
 	}
+	cmd_not_foud(cmd);
 	free(aux);
 	free_matrix(path_from_envp);
 	return (0);
 }
 
-void	free_matrix(char **paths)
+void free_matrix(char **paths)
 {
 	int i;
 

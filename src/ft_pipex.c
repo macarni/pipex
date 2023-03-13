@@ -6,48 +6,39 @@
 /*   By: adrperez <adrperez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 13:14:24 by adrperez          #+#    #+#             */
-/*   Updated: 2023/03/13 11:30:47 by adrperez         ###   ########.fr       */
+/*   Updated: 2023/03/13 12:54:08 by adrperez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/pipex.h"
 
-static void first_exec(int infile, char **argv, char **envp, int *fd)
+static void first_exec(char **argv, char **envp, int *fd, char **path_from_envp)
 {
 	char *path;
 	char	**cmd;
+	int 	infile;
 
-	path = check_cmd(argv[2], envp);
-	if (!path)
-	{
-		ft_putstr_fd("pipex: command not found\n", 2);
-		free(path);
-		exit(127);
-	}
+	infile = get_infile(argv[1]);
+	path = check_cmd(argv[2], path_from_envp);
 	cmd = ft_split(argv[2], ' ');
 	close(fd[0]);				// vamos ESCRIBIR en el pipe, asi que se cierra el de lectura
 	dup2(infile, STDIN_FILENO); // cierra el STDIN estandar y redirecciona el archivo al STDIN -> esto hará que infile sea el input de execve
 	close(infile);
 	dup2(fd[1], STDOUT_FILENO); // redirecciona la salida del comando a fd[0] en vez de STDOUT
 	close(fd[1]);
-	execve(path, cmd, envp); // del primer comando
-	free_matrix(cmd);
-	free(path);
+	if (execve(path, cmd, envp) < 0)
+		exit(errno);
 }
 
-static void last_exec(int outfile, char **argv, char **envp, int *fd)
+static void last_exec(char **argv, char **envp, int *fd, char **path_from_envp)
 {
 	char	*path;
 	char	**cmd;
+	int 	outfile;
 	pid_t	pid;
 
-	path = check_cmd(argv[3], envp);
-	if (!path)
-	{	
-		ft_putstr_fd("pipex: command not found\n", 2);
-		free(path);
-		exit(127);
-	}
+	outfile = get_outfile(argv[4]);
+	path = check_cmd(argv[3], path_from_envp);
 	cmd = ft_split(argv[3], ' ');
 	pid = fork(); // segundo hijo
 	close(fd[1]); // padre lee, así que cerramos el de escritura
@@ -56,9 +47,8 @@ static void last_exec(int outfile, char **argv, char **envp, int *fd)
 		dup2(outfile, STDOUT_FILENO); // redirecciona el STDOUT al outfile
 		dup2(fd[0], STDIN_FILENO);	  // redirecciona el STDIN al fd[1] --> queremos que lea del extremo de lectura del pipe (el que el padre tiene abierto)
 		close(fd[0]);
-		execve(path, cmd, envp); // del segundo comando
-		free_matrix(cmd);
-		free(path);
+		if (execve(path, cmd, envp) < 0) 
+			exit(127);
 	}
 	else if (pid == -1) // error
 		perror("Fork: ");
@@ -68,7 +58,7 @@ static void last_exec(int outfile, char **argv, char **envp, int *fd)
 	}
 }
 
-void pipex(int infile, int outfile, char **argv, char **envp)
+void pipex(char **argv, char **envp, char **path)
 {
 	int		fd[2];
 	pid_t 	pid;
@@ -79,9 +69,9 @@ void pipex(int infile, int outfile, char **argv, char **envp)
 	if (pid == -1) // error
 		perror("Fork: ");
 	else if (pid == 0) //hijo
-		first_exec(infile, argv, envp, fd);
-	else 
-		last_exec(outfile, argv, envp, fd);
+		first_exec(argv, envp, fd, path);
+	else
+		last_exec(argv, envp, fd, path);
 	// un wait para cada hijo
 	waitpid(pid, &status, WNOHANG);
 	waitpid(pid, &status, WNOHANG);
