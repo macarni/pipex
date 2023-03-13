@@ -40,5 +40,6 @@ void 	ft_putstr_fd(char *s, int fd);
 void	check_args(int argc);
 int 	get_infile(char *argv);
 int 	get_outfile(char *argv);
+void 	free_matrix(char **path);
 
 #endif

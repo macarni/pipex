@@ -6,7 +6,7 @@
 /*   By: adrperez <adrperez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 17:23:35 by adrperez          #+#    #+#             */
-/*   Updated: 2023/03/08 18:51:00 by adrperez         ###   ########.fr       */
+/*   Updated: 2023/03/13 11:30:24 by adrperez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int get_infile(char *argv)
 		write(2, "\n", 1);
 		exit(errno); // number of last error
 	}
-
 	return (file);
 }
 
@@ -40,6 +39,5 @@ int get_outfile(char *argv)
 		write(2, "\n", 1);
 		exit(errno);
 	}
-
 	return (file);
 }
