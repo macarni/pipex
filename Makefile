@@ -6,7 +6,7 @@
 #    By: adrperez <adrperez@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/19 13:52:47 by adrperez          #+#    #+#              #
-#    Updated: 2023/03/14 10:34:29 by adrperez         ###   ########.fr        #
+#    Updated: 2023/03/14 16:02:46 by adrperez         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,25 @@ SRCS		= 	src/paths.c \
 				utils/ft_bzero.c \
 				utils/ft_putstr_fd.c \
 
+#Sources
+# SRCS_BONUS	= 	src/paths.c \
+# 				src/main_bonus.c \
+# 				src/ft_pipex_bonus.c \
+# 				src/error_mngmnt.c \
+# 				src/ft_files.c \
+# 				utils/ft_memcmp.c \
+# 				utils/ft_split.c \
+# 				utils/ft_strdup.c \
+# 				utils/ft_strlen.c \
+# 				utils/ft_calloc.c \
+# 				utils/ft_strlcat.c \
+# 				utils/ft_strjoin.c \
+# 				utils/ft_bzero.c \
+# 				utils/ft_putstr_fd.c \
+				
+
 OBJS		= 	$(SRCS:.c=.o)
+OBJS_BONUS	= 	$(SRCS_BONUS:.c=.o)
 
 #Compilation
 CC			=	gcc
@@ -49,6 +67,9 @@ all:		$(NAME)
 
 $(NAME): $(OBJS)
 		$(CC) $(CFLAGS) -o $(NAME) $(OBJS)		
+
+bonus: $(OBJS_BONUS)
+		$(CC) $(CFLAGS) -o $(NAME) $(OBJS_BONUS)	
 
 #Cleaning objects (Eliminacion de objetos)
 clean:

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pipex.c                                         :+:      :+:    :+:   */
+/*   ft_pipex_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adrperez <adrperez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 13:14:24 by adrperez          #+#    #+#             */
-/*   Updated: 2023/03/14 16:41:05 by adrperez         ###   ########.fr       */
+/*   Updated: 2023/03/14 16:44:35 by adrperez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,40 @@ static void last_exec(char **argv, char **envp, int *fd, char **path_from_envp)
 	free(path);
 }
 
-void pipex(char **argv, char **envp, char **path)
+static void middle_exec(char **argv, char **envp, int *fd, char **path_from_envp, int argc)
+{
+	char 	*path;
+	char	**cmd;
+	pid_t	pid;
+	int		i;
+
+	i = 3;
+	while (i < argc - 2)
+	{	
+		cmd = ft_split(argv[i], ' ');
+		path = check_cmd(cmd, path_from_envp);
+		pid = fork();
+		close(fd[1]);
+		if (pid == 0)
+		{
+			dup2(fd[1], STDOUT_FILENO);
+			dup2(fd[0], STDIN_FILENO);
+			close(fd[0]);
+			close(fd[1]);
+			if (execve(path, cmd, envp) < 0) 
+				exit(errno);
+		}
+		else if (pid == -1)
+			perror("Fork: ");
+		else
+			close(fd[0]);
+		free_matrix(cmd);
+		free(path);
+	}
+
+}
+
+void pipex_bonus(char **argv, char **envp, char **path, int argc)
 {
 	int		fd[2];
 	pid_t 	pid;
