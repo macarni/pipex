@@ -42,7 +42,8 @@ void 	cmd_not_foud(char *cmd);
 void	write_error(char	*str);
 void 	get_input_file(char *argv, int *infile);
 void 	get_output_file(char *argv, int *outfile);
-void	pipex_bonus(char **argv, char **envp, char **path, int *files, int argc);
+void 	pipex_bonus(char **argv, char **envp, int argc);
 int 	main_bonus(int argc, char **argv, char **envp);
+char	*check_cmd_bonus(char **cmd, char **envp);
 
 #endif
