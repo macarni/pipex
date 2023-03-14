@@ -121,7 +121,7 @@ void pipex_bonus(char **argv, char **envp, int argc)
 {
 	int		fd[2];
 
-	if (pipe(fd) == 0) // Si no devuelve un 0 es que ha habido un error
+	if (pipe(fd) == 0)
 	{
 		first_exec(argv, envp, fd);
 		middle_exec(argv, envp, fd, argc);
