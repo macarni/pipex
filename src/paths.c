@@ -6,16 +6,11 @@
 /*   By: adrperez <adrperez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 12:24:49 by adrperez          #+#    #+#             */
-/*   Updated: 2023/03/13 17:00:03 by adrperez         ###   ########.fr       */
+/*   Updated: 2023/03/14 12:23:12 by adrperez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/pipex.h"
-
-// 1. Encontrar PATH
-// 2. Cortar a  partir de PATH
-// 3. Split
-// 4. Probar en cual está el comando
 
 static char **cut_path(char *path)
 {
@@ -46,7 +41,7 @@ char **ft_find_path(char **envp)
 	return (cut_path(path));
 }
 
-char *check_cmd(char *argv, char **path_from_envp)
+char *check_cmd(char **argv, char **path_from_envp)
 {
 	char *aux;
 	int res;
@@ -55,7 +50,7 @@ char *check_cmd(char *argv, char **path_from_envp)
 	char *cmd;
 
 	i = 0;
-	cmd = ft_split(argv, ' ')[0];
+	cmd = argv[0];
 	aux = ft_strjoin("/", cmd);
 	while (path_from_envp[i])
 	{

@@ -6,7 +6,7 @@
 #    By: adrperez <adrperez@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/19 13:52:47 by adrperez          #+#    #+#              #
-#    Updated: 2023/03/13 16:36:21 by adrperez         ###   ########.fr        #
+#    Updated: 2023/03/14 10:34:29 by adrperez         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ OBJS		= 	$(SRCS:.c=.o)
 
 #Compilation
 CC			=	gcc
-CFLAGS		=	-Wall -Wextra -Werror -g
+CFLAGS		=	-Wall -Wextra -Werror -g3 -fsanitize=address
 
 #Include
 INC			= ./include

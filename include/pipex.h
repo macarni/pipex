@@ -19,7 +19,9 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <errno.h>
-#include <string.h>
+# include <string.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 
 int		main(int argc, char **argv, char **envp);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
@@ -31,7 +33,7 @@ void	*ft_calloc(size_t count, size_t size);
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 char	*ft_strjoin(char const *s1, char const *s2);
 void	ft_bzero(void *s, size_t n);
-char 	*check_cmd(char *argv, char **path_from_envp);
+char 	*check_cmd(char **argv, char **path_from_envp);
 void 	pipex(char **argv, char **envp, char **path, int infile, int outfile);
 void 	ft_putstr_fd(char *s, int fd);
 void	check_args(int argc);
