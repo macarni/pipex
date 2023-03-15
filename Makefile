@@ -6,7 +6,7 @@
 #    By: adrperez <adrperez@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/19 13:52:47 by adrperez          #+#    #+#              #
-#    Updated: 2023/03/14 19:42:21 by adrperez         ###   ########.fr        #
+#    Updated: 2023/03/15 15:27:04 by adrperez         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,7 +69,7 @@ $(NAME): $(OBJS)
 		$(CC) $(CFLAGS) -o $(NAME) $(OBJS)		
 
 bonus: $(OBJS_BONUS)
-		$(CC) $(CFLAGS) $(OBJS_BONUS) -o $(NAME) 
+		$(CC) $(CFLAGS)  -o $(NAME) $(OBJS_BONUS)
 
 #Cleaning objects (Eliminacion de objetos)
 clean:
@@ -77,7 +77,7 @@ clean:
 
 #Cleaning objects and executable 
 fclean:		clean
-			$(RM) $(NAME) $(OBJS_BONUS)
+			$(RM) $(NAME) $(OBJS_BONUS) $(OBJS)
 
 #Cleaning all and then compilation
 re:			fclean all

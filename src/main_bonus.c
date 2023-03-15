@@ -6,7 +6,7 @@
 /*   By: adrperez <adrperez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 12:11:27 by adrperez          #+#    #+#             */
-/*   Updated: 2023/03/14 19:45:49 by adrperez         ###   ########.fr       */
+/*   Updated: 2023/03/15 10:21:32 by adrperez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,12 @@
 	
 int main(int argc, char **argv, char **envp)
 {
-	//check_args(argc);
-	//get_files(argv[1], &files[0], argv[4], &files[1]);
+	if (argc == 1)
+	{
+		ft_putstr_fd("Argument error. Example usage: ./pipex infile \"ls -l\" [...] \"wc -l\" outfile\n", 2);
+		exit(1);
+	}
 	pipex_bonus(argv, envp, argc);
-	//system("leaks pipex");
 	return (0);
 }		
 	

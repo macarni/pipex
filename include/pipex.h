@@ -36,14 +36,13 @@ void	ft_bzero(void *s, size_t n);
 char 	*check_cmd(char **argv, char **path_from_envp);
 void 	pipex(char **argv, char **envp, char **path);
 void 	ft_putstr_fd(char *s, int fd);
-void	check_args(int argc);
 void 	free_matrix(char **path);
 void 	cmd_not_foud(char *cmd);
 void	write_error(char	*str);
 void 	get_input_file(char *argv, int *infile);
 void 	get_output_file(char *argv, int *outfile);
 void 	pipex_bonus(char **argv, char **envp, int argc);
-int 	main_bonus(int argc, char **argv, char **envp);
+//int 	main_bonus(int argc, char **argv, char **envp);
 char	*check_cmd_bonus(char **cmd, char **envp);
 
 #endif

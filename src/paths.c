@@ -6,7 +6,7 @@
 /*   By: adrperez <adrperez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 12:24:49 by adrperez          #+#    #+#             */
-/*   Updated: 2023/03/14 12:23:12 by adrperez         ###   ########.fr       */
+/*   Updated: 2023/03/15 11:18:54 by adrperez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,9 @@ char *check_cmd(char **argv, char **path_from_envp)
 		free(correct_path);
 		i++;
 	}
-	cmd_not_foud(cmd);
 	free(aux);
 	free_matrix(path_from_envp);
+	cmd_not_foud(cmd);
 	return (0);
 }
 
