@@ -6,7 +6,7 @@
 /*   By: adrperez <adrperez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 12:11:27 by adrperez          #+#    #+#             */
-/*   Updated: 2023/03/15 10:52:46 by adrperez         ###   ########.fr       */
+/*   Updated: 2023/03/16 11:00:25 by adrperez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,7 @@ int main(int argc, char **argv, char **envp)
 	}
 	path_from_envp = ft_find_path(envp);
 	pipex(argv, envp, path_from_envp);
+	free_matrix(path_from_envp);
+	// system("leaks pipex");
 	return (0);
 }		

@@ -6,7 +6,7 @@
 /*   By: adrperez <adrperez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 13:14:24 by adrperez          #+#    #+#             */
-/*   Updated: 2023/03/15 15:21:49 by adrperez         ###   ########.fr       */
+/*   Updated: 2023/03/16 11:11:53 by adrperez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,17 @@ static void first_exec(char **argv, char **envp, int *fd, char **path_from_envp)
 	int		status;
 
 	infile = 0;
+	get_input_file(argv[1], &infile);
+	dup2(infile, STDIN_FILENO); // cierra el STDIN estandar y redirecciona el archivo al STDIN -> esto hará que infile sea el input de execve
+	close(infile);
 	pid = fork();
 	//close(fd[1]);
 	if (pid == -1) // error
 		perror("Fork: ");
 	else if (pid == 0) //hijo
 	{
-		get_input_file(argv[1], &infile);
 		cmd = ft_split(argv[2], ' ');
 		path = check_cmd(cmd, path_from_envp);
-		dup2(infile, STDIN_FILENO); // cierra el STDIN estandar y redirecciona el archivo al STDIN -> esto hará que infile sea el input de execve
-		close(infile);
 		close(fd[0]);				// se cierra después de leer dle archivo
 		dup2(fd[1], STDOUT_FILENO); // redirecciona la salida del comando a fd[0] en vez de STDOUT
 		close(fd[1]);
@@ -54,25 +54,26 @@ static void last_exec(char **argv, char **envp, int *fd, char **path_from_envp)
 
 	outfile = 0;
 	get_output_file(argv[4], &outfile);
-	cmd = ft_split(argv[3], ' ');
-	path = check_cmd(cmd, path_from_envp);
+	dup2(outfile, STDOUT_FILENO); // redirecciona el STDOUT al outfile
+	close(outfile);
 	pid = fork(); // segundo hijo
 	//close(fd[1]); // padre lee, así que cerramos el de escritura
 	if (pid == 0)
 	{
-		dup2(outfile, STDOUT_FILENO); // redirecciona el STDOUT al outfile
+		cmd = ft_split(argv[3], ' ');
+		path = check_cmd(cmd, path_from_envp);
 		dup2(fd[0], STDIN_FILENO);	  // redirecciona el STDIN al fd[1] --> queremos que lea del extremo de lectura del pipe (el que el padre tiene abierto)
 		close(fd[0]);
 		if (execve(path, cmd, envp) < 0) 
 			exit(errno);
+		free_matrix(cmd);
+		free(path);
 	}
 	else if (pid == -1) // error
 		perror("Fork: ");	
 	waitpid(pid, &status, WNOHANG);
-	close(outfile);
 	close(fd[0]); // para que se cierre el extremo cuando ya no es necesario
-	free_matrix(cmd);
-	free(path);
+	
 }
 
 void pipex(char **argv, char **envp, char **path)
